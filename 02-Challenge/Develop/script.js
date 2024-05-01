@@ -1,156 +1,132 @@
-// Get a reference to the #add-employees-btn element
-// const addEmployeesBtn = document.querySelector('#add-employees-btn');
-
-// Function to collect employee data
 const collectEmployees = function() {
   const employees = []; // Array to store employee objects
-  
-  // Loop to collect information for each employee
+
   while (true) {
-      const firstName = prompt('First Name:');
-      if (firstName === null) break; // Exit the loop if user cancels
-      
-      const lastName = prompt('Last Name:');
-      if (lastName === null) break; // Exit the loop if user cancels
-      
-      const salary = parseFloat(prompt('Employee Salary:'));
-      if (salary === null) break; // Exit the loop if user cancels
-      
-      // Create an employee object and add it to the array
-      const employee = {
-          firstName: firstName,
-          lastName: lastName,
-          salary: salary
-      };
-      employees.push(employee);
-      
-      // Ask the user if they want to continue adding employees
-      const continueAdding = confirm('Do you want to continue adding employees?');
-      if (!continueAdding) break; // Exit the loop if user chooses to cancel
+    let firstName;
+    while (true) {
+        firstName = prompt('First Name:');
+        if (firstName === null) {
+            return employees; // Exit the loop and function if user cancels
+        } else if (firstName.trim() === '') {
+            // Prompt again if nothing is entered
+            alert('first name cannot be empty. Please enter first name.');
+        } else {
+            break; // Exit the loop if valid input is provided
+        }
+    }
+
+    let lastName;
+    while (true) {
+        lastName = prompt('Last Name:');
+        if (lastName === null) {
+            return employees; // Exit the loop and function if user cancels
+        } else if (lastName.trim() === '') {
+            // Prompt again if nothing is entered
+            alert('Last name cannot be empty. Please enter last name.');
+        } else {
+            break; // Exit the loop if valid input is provided
+        }
+    }
+    
+
+    let salary;
+    while (true) {
+      const salaryInput = prompt('Employee Salary:');
+      if (salaryInput === null) {
+        return employees; // Exit the loop and function if user cancels
+      }
+      salary = parseFloat(salaryInput); // Parse the input as a float
+      if (!isNaN(salary)) break; // Exit the loop if a valid number is entered
+      else alert('Invalid input. Please enter a valid number.'); // Notify user of invalid input
+    }
+
+    employees.push({ firstName, lastName, salary }); // Add employee object to the array
+
+    // Ask if the user wants to add another employee
+    const addAnother = confirm('Do you want to add another employee?');
+    if (!addAnother) {
+      break; // Exit the loop if the user does not want to add another employee
+    }
   }
-  
-  return employees; // Return the array of employee objects
+
+  return employees;
 };
 
 // Function to handle button click event
 const addButtonClickHandler = function() {
-  const employeeArray = collectEmployees();
-  console.log(employeeArray);
+  const employeesArray = collectEmployees();
+  console.log(employeesArray);
 };
 
 // Get a reference to the button
-const addEmployeesBtn = document.getElementById('add-employees-btn');
+const addEmployeeBtn = document.getElementById('add-employees-btn');
 
 // Add event listener to the button
-addEmployeesBtn.addEventListener('click', addButtonClickHandler);
+addEmployeeBtn.addEventListener('click', addButtonClickHandler);
 
   // TODO: Get user input to create and return an array of employee objects
 
 
 
 
+// Calculate and return the average salary
+const calculateAverageSalary = function(employeesArray) {
+  // Check if the array is empty
+  if (employeesArray.length === 0) {
+    return null; // No employees to calculate average salary
+  }
 
+  // Calculate the total salary
+  let totalSalary = 0;
+  for (const employee of employeesArray) {
+    totalSalary += employee.salary;
+  }
 
+  // Calculate the average salary
+  const averageSalary = totalSalary / employeesArray.length;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  return averageSalary;
+};
 
 // Display the average salary
-const displayAverageSalary = function(employeesArray) {  // Check if the array is empty
-  if (employeesArray.length === 0) {
-      console.log('No employees to calculate average salary.');
-      return;
-  // TODO: Calculate and display the average salary
-}
- // Calculate the total salary
- let totalSalary = 0;
- for (const employee of employeesArray) {
-     totalSalary += employee.salary;
- }
- 
- // Calculate the average salary
- const averageSalary = totalSalary / employeesArray.length;
- 
- // Display the average salary
- console.log('Average salary: ' + averageSalary.toFixed(2)); // Displaying average salary rounded to 2 decimal places
-};
-const employees = [
-  { firstName: 'John', lastName: 'Doe', salary: 50000 },
-  { firstName: 'Jane', lastName: 'Smith', salary: 60000 },
-  { firstName: 'Alice', lastName: 'Johnson', salary: 70000 }
-];
-displayAverageSalary(employees);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Select a random employee
-const getRandomEmployee = function(employeesArray) { // Check if the array is empty
-  if (employeesArray.length === 0) {
-      console.log('No employees available.');
-      return null;
+const displayAverageSalary = function(averageSalary) {
+  if (averageSalary === null) {
+    console.log('No employees to calculate average salary.');
+  } else {
+    console.log(`Average salary: ${averageSalary.toFixed(2)}`); // Using template literal string for formatting
   }
-  
-  // Generate a random index within the range of the array length
-  const randomIndex = Math.floor(Math.random() * employeesArray.length);
-  
-  // Return the random employee at the random index
-  return employeesArray[randomIndex];
 };
-  // TODO: Select and display a random employee
-  const randomEmployee = getRandomEmployee(employees);
-  console.log('Random employee:', randomEmployee);
+
+// Assuming you have already collected the employee data and stored it in 'employees' array
+const employees = collectEmployees();
+const averageSalary = calculateAverageSalary(employees);
+displayAverageSalary(averageSalary);
 
 
+ // Select a random employee
+ const getRandomEmployees = function(employeesArray) { // Check if the array is empty
+   if (employeesArray.length === 0) {
+       console.log('No employees available.');
+       return null;
+   }
+   
+   // Generate a random index within the range of the array length
+   const randomIndex = Math.floor(Math.random() * employeesArray.length);
+   
+   // Return the random employee at the random index
+   return employeesArray[randomIndex];
+  };
+   // TODO: Select and display a random employee
+   
+   const randomEmployees = getRandomEmployees(employees);
+   if (randomEmployees) {
+    console.log(`Congrats to our randomly picked Employee: ${randomEmployees.firstName} ${randomEmployees.lastName}`);
+  } else {
+    console.log('No employees available.');
+  };
 
-
-
-
-
-
-
-
-
-
-
-
+  
+ 
 /*
   ====================
   STARTER CODE
@@ -212,17 +188,11 @@ const trackEmployeeData = function() {
   });
 
   displayEmployees(employees);
-}
-
-// Add event listener to 'Add Employees' button
-addEmployeesBtn.addEventListener('click', trackEmployeeData);
+};
 
 
-// create dummy data for  single blog post. 
-// can i save that data to localStorage
-// how do i send user from one webpage to another? 
-// read data thats already in localStorage, and parse it into something you can work with
-// diplay all the data back on the screen. 
 
 
-// create a form that will be incharge of putting data into the system - put each vlog item into the code
+
+
+
